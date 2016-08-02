@@ -1,0 +1,9 @@
+FROM php:5.5-apache
+RUN docker-php-ext-install pdo pdo_mysql
+
+ADD . /dockertest/src
+
+RUN cd /dockertest/src && composer update && composer install -n
+RUN rm -rf /var/www
+RUN ln -s /dockertest/src/public /var/www
+RUN chown -R www-data:www-data /dockertest/src
